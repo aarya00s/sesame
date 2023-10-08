@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moonquake Visualization</title>
+    <style>
+        #slider-container {
+    position: fixed;
+    bottom: 0;
+    left: 90%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.slider {
+    width: 80%;
+    margin: 0;
+}
+
+#yearLabel {
+    color: white;
+    margin-left: 10px;
+}
+
+/* Styling for the slider thumb (the handle) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50%; /* Circular slider handle */
+}
+
+.slider::-moz-range-thumb {
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50%; /* Circular slider handle */
+}
+
+/* Styling for the slider track */
+.slider::-webkit-slider-runnable-track {
+    cursor: pointer;
+    background: #ddd;
+    border-radius: 5px;
+}
+
+.slider::-moz-range-track {
+    cursor: pointer;
+    background: #ddd;
+    border-radius: 5px;
+}
+
+        body { margin: 0; }
+        canvas { display: block; }
+        #info, #uploadSection {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            z-index: 100;
+        }
+        #uploadSection { 
+            top: unset; 
+            bottom: 10px; 
+            background-color: rgba(0,0,0,0.5); 
+            padding: 10px; 
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h1>Moonquake Visualization</h1>
+        <!-- Add any additional UI elements here -->
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+    <script type="module" src="/static/script2.js"></script>
+    <div id="uploadSection">
+        <h2>Upload Video for Sonification</h2>
+        <form enctype="multipart/form-data" action="/process_video" method="post" id="uploadForm">
+            <input type="file" name="video" accept="video/*" required>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+    <div id="slider-container">
+        <input type="range" min="1969" max="1977" value="1969" class="slider" id="yearSlider">
+        <label id="yearLabel">1969</label>
+    </div>
+    <script>
+        
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            fetch('/process_video', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 'ok') {
+                    // Load audio into your Three.js website
+                    // Example: Update a global variable that holds the path to the audio file
+                } else {
+                    alert('Error processing video.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while uploading the video.');
+            });
+        });
+    </script>
+    <div id="info" style="display: none; position: absolute; background-color: white;">
+        <!-- Information will be injected here by displayInfo function -->
+    </div>
+</body>
+</html>

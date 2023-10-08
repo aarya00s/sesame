@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+    <script type="module" src="/static/script.js"> import { updatePlot, toggleAnimation } from '/static/script.js';</script> <!-- 3D Graph script -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Drifter Data Visualization</title>
+    <style>
+        body { margin: 0; background-color: #f0f0f0; } /* Set a background color */
+        #info-popup, #legend {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #info-popup { top: 10px; right: 10px; display: none; }
+        #legend { right: 10px; overflow-y: auto; top: 10px; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+        .color-box { width: 10px; height: 10px; display: inline-block; margin-right: 5px; }
+        .label { position: absolute; font-family: Arial; font-size: 12px; color: white; pointer-events: none; }
+        #popup { position: absolute; background: white; padding: 10px; border: 1px solid black; display: none; }
+        #plotly-graph { position: relative; bottom: 0; width: 100%; height: 50vh; display: none; }
+        #plotly-graph2 { position: relative; bottom: 0; width: 100%; height: 50vh; display: none; }
+    </style>
+</head>
+<body>
+    <div id="legend"></div>
+    <div id="popup"></div>
+    <div id="controls" style="position: absolute; bottom: 20px; left: 20px; width: 200px; background-color: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 5px;">
+        <input type="range" id="monthSlider" min="1" max="12" value="1" style="width: 100%;" oninput="updatePlot()">
+        <p id="monthLabel" style="text-align: center; margin: 5px;">Month: 1</p>
+        <button id="pauseButton" onclick="toggleAnimation()">Pause</button>
+    </div>
+    
+    
+    
+    
+</body>
+</html>
